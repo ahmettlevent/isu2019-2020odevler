@@ -1,19 +1,24 @@
 # A dictionary of movie critics and their ratings of a small
 # set of movies
-critics = {'Lisa Rose': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5},
-           'Gene Seymour': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
-                            'Just My Luck': 3.0, 'Superman Returns': 3.5, 'The Night Listener': 3.0,
-                            'You, Me and Dupree': 2.5},
+critics = {'Lisa Rose': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
+                         'Just My Luck': 3.0, 'Superman Returns': 3.5, 'You, Me and Dupree': 2.5,
+                         'The Night Listener': 3.0},
+           'Gene Seymour': {'Lady in the Water': 3.0, 'Snakes on a Plane': 3.5,
+                            'Just My Luck': 1.5, 'Superman Returns': 5.0, 'The Night Listener': 3.0,
+                            'You, Me and Dupree': 3.5},
            'Michael Phillips': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.0,
                                 'Superman Returns': 3.5, 'The Night Listener': 4.0},
-           'Claudia Puig': {'Snakes on a Plane': 3.5, 'Just My Luck': 3.0},
+           'Claudia Puig': {'Snakes on a Plane': 3.5, 'Just My Luck': 3.0,
+                            'The Night Listener': 4.5, 'Superman Returns': 4.0,
+                            'You, Me and Dupree': 2.5},
            'Mick LaSalle': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0,
                             'Just My Luck': 2.0, 'Superman Returns': 3.0, 'The Night Listener': 3.0,
                             'You, Me and Dupree': 2.0},
            'Jack Matthews': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0,
                              'The Night Listener': 3.0, 'Superman Returns': 5.0, 'You, Me and Dupree': 3.5},
-           'Toby': {'Snakes on a Plane': 4.5, 'Superman Returns': 4.0},
-           'Ali': {'Just My Luck': 1.0, 'You, Me and Dupree': 3.5}}
+           'Toby': {'Snakes on a Plane': 4.5, 'You, Me and Dupree': 1.0, 'Superman Returns': 4.0},
+           'Ali': {'Just My Luck': 1.0, 'You, Me and Dupree': 2.0, 'The Night Listener': 4.5, 'Superman Returns': 1.0,
+                   'Snakes on a Plane': 4.5}}
 
 from math import sqrt
 
@@ -24,7 +29,7 @@ def sim_jaccard(prefs, person1, person2):  # Jaccard Distance (A, B) = |A inters
         if item in prefs[person2]: p1_intersect_p2[item] = 1
 
     # Get the list of all items that we have
-    p1_union_p2 = prefs[person1]
+    p1_union_p2 = dict(prefs[person1])
     for item in prefs[person2]:
         if item not in p1_union_p2: p1_union_p2[item] = 1
 
@@ -103,11 +108,9 @@ def getRecommendations(prefs, person, similarity=sim_pearson):
         # don't compare me to myself
         if other == person: continue
         sim = similarity(prefs, person, other)
-
         # ignore scores of zero or lower
         if sim <= 0: continue
         for item in prefs[other]:
-
             # only score movies I haven't seen yet
             if item not in prefs[person] or prefs[person][item] == 0:
                 # Similarity * Score
