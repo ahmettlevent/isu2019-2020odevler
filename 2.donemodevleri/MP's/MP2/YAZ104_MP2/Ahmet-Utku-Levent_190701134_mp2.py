@@ -2,6 +2,7 @@ import dbm
 import pickle
 from tkinter import *
 from tkinter import ttk, filedialog, messagebox
+import PIL
 
 import xlrd
 
@@ -311,7 +312,7 @@ class IstinyeKafeterya(Frame):
 def main():
     root = Tk()
     root.geometry("800x500+285+85")
-    root.resizable(width=False, height=False)
+    #root.resizable(width=False, height=False)
     root.configure(bg="misty rose")
     root.title("by ahmettlevent")
     app = IstinyeKafeterya(root)
