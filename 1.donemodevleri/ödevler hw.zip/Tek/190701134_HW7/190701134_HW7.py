@@ -16,7 +16,7 @@ print("--------------------OYUN TAHTASI--------------------")
 for i in range(6, -1, -1):
     print("{} {}".format(i + 1, satir_list[i]))
     if i == 0:
-        print("0\t1", "\t 2", "\t  3", "   4", "\t5", "\t 6", "\t  7")
+        print("0   1", "   2", "   3", "   4", "   5", "   6", "   7")
 # ------------
 while True:
     print("----------------------------------------------------")
@@ -58,7 +58,7 @@ while True:
                     for i in range(6, -1, -1):
                         print("{} {}".format(i + 1, satir_list[i]))
                         if i == 0:
-                            print("0\t1", "\t 2", "\t  3", "   4", "\t5", "\t 6", "\t  7")
+                            print("0   1", "   2", "   3", "   4", "   5", "   6", "   7")
                     break
                 elif sutun_satir_dolumu == 0 :
                     print("---\nGirdiğiniz Satir Bos Lütfen Farklı Bir Satir Deneyiniz\n---")
@@ -98,7 +98,7 @@ while True:
                     for i in range(6, -1, -1):
                         print("{} {}".format(i + 1, satir_list[i]))
                         if i == 0:
-                            print("0\t1", "\t 2", "\t  3", "   4", "\t5", "\t 6", "\t  7")
+                            print("0   1", "   2", "   3", "   4", "   5", "   6", "   7")
                     break
                 elif sutun_satir_dolumu == 0 :
                     print("---\nGirdiğiniz Sutun Bos Lütfen Farklı Bir Sutun Deneyiniz\n---")

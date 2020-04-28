@@ -1,31 +1,19 @@
 from PIL import Image,ImageDraw
 
-
-def openFile(filename):
-  dictionary = dict()
-  with open(filename) as openfile:
-    for line in openfile:
-      line = line.split(",")
-      # satir sonundaki newline'dan kurtulalim
-      line[-1] = line[-1].strip()
-      sliced_line = line[3:]
-      for i in range(0, (len(sliced_line) - 1), 2):
-        dictionary.setdefault(sliced_line[i], {})
-        dictionary[sliced_line[i]][line[0]] = sliced_line[i + 1]
-
-  return dictionary
-
 def readfile(filename):
   lines=[line for line in open(filename, "r").readlines()]
+  
+  # First line is the column titles
+  colnames=lines[0].strip().split('\t')[1:]
   rownames=[]
   data=[]
-  for line in lines:
-    p=line.strip().split(',')
+  for line in lines[1:]:
+    p=line.strip().split('\t')
     # First column in each row is the rowname
     rownames.append(p[0])
     # The data for this row is the remainder of the row
-    data.append([x for x in p[1:]])
-  return rownames,data
+    data.append([float(x) for x in p[1:]])
+  return rownames,colnames,data
 
 
 from math import sqrt

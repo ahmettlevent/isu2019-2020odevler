@@ -5,7 +5,7 @@ abelmoschus esculentus,ct,dc,fl,il,ky,la,md,mi,ms,nc,sc,va,pr,vi
 abelmoschus moschatus,hi,pr
 abies,ak,az,ca,co,ct,ga,id,in,ia,me,md,ma,mi,mn,mt,nv,nh,nm,ny,nc,oh,or,pa,ri,tn,ut,vt,va,wa,wv,wi,wy,ab,bc,lb,mb,nb,nf,nt,ns,nu,on,pe,qc,sk,yt,fraspm
 abies alba,nc
-abies amabilis,ak,ca,or,wa,bc
+abies amabilis,ak,ca,or,wa,bcdryopteris
 abies balsamea,ct,in,ia,me,md,ma,mi,mn,nh,ny,oh,pa,ri,vt,va,wv,wi,ab,lb,mb,nb,nf,ns,nu,on,pe,qc,sk,fraspm
 abies balsamea var. balsamea,ct,in,ia,me,md,ma,mi,mn,nh,ny,oh,pa,ri,vt,va,wv,wi,ab,lb,mb,nb,nf,ns,nu,on,pe,qc,sk,fraspm
 abies balsamea var. phanerolepis,me,nh,vt,va,wv,nb,nf,ns,on,pe,qc
@@ -3751,7 +3751,7 @@ azolla,al,ak,az,ar,ca,co,ct,de,dc,fl,ga,hi,il,in,ia,ks,ky,la,me,md,ma,mi,mn,ms,m
 azolla caroliniana,al,ar,ct,de,dc,fl,ga,il,in,ks,ky,la,me,md,ma,mi,ms,mo,ne,nh,nj,ny,nc,oh,ok,pa,sc,sd,tn,tx,va,wv,wi,pr,bc,on
 azolla filiculoides,ak,az,ca,hi,or,tx,wa,bc
 azolla mexicana,az,ar,ca,co,il,ia,ks,mn,mo,ne,nv,nm,ok,or,tx,ut,wa,wi,bc
-azolla pinnata,nc
+azolla pdryopterisinnata,nc
 baccharis,al,az,ar,ca,co,ct,de,dc,fl,ga,ks,la,md,ma,ms,nv,nj,nm,ny,nc,ok,or,pa,ri,sc,tx,ut,va,pr,vi
 baccharis angustifolia,al,fl,ga,la,ms,nc,sc
 baccharis bigelovii,az,nm,tx
