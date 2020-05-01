@@ -1,0 +1,9 @@
+http://www.star.com.tr/rss/spor.xml
+http://www.takvim.com.tr/rss/Spor.xml
+http://spor.mynet.com/rss
+http://www.taf.org.tr/feed/rss/
+http://www.ttf.org.tr/feed/rss/
+https://www.cnnturk.com/feed/rss/spor/news
+https://www.haberturk.com/rss/spor.xml
+http://www.trt.net.tr/rss/spor.rss
+https://www.sabah.com.tr/rss/spor.xml

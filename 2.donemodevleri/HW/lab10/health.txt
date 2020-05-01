@@ -1,0 +1,10 @@
+http://www.takvim.com.tr/rss/Yasam.xml
+http://www.stargazete.com/rss/rss.asp?cid=125
+https://www.sabah.com.tr/rss/saglik.xml
+http://www.cnnturk.com/servisler/rss/24/saglik.xml
+https://www.cnnturk.com/feed/rss/saglik/news
+http://www.trt.net.tr/rss/saglik.rss
+https://dergipark.org.tr/en/pub/saglik/rss/lastissue/tr
+https://sggm.saglik.gov.tr/rss?tip=1&Anah=3876
+https://dergipark.org.tr/tr/pub/sagakaderg/rss/lastissue/tr
+https://www.ntv.com.tr/saglik.rss
