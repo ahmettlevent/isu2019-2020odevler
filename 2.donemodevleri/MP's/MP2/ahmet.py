@@ -78,7 +78,6 @@ class IstinyeKafeterya(Frame):
                                                                                                       width=75,
                                                                                                       height=30)
         Label(self.parent, bg="peach puff", fg="gray5", text="Ã–neri Modeli", font="10").place(x=55, y=182)
-
         Radiobutton(self.parent, bg="misty rose", activebackground="misty rose", text="KullanÄ±cÄ± BazlÄ±",
                     variable=self.OneriModeli_var, value=0).place(x=55, y=210, width=95)
 
