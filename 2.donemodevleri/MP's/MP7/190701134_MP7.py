@@ -3,21 +3,56 @@ import shelve
 import time
 from tkinter import *
 from tkinter import messagebox
-
+import re
 
 # WORD CHECK Decorator --
 def wordCheck(func):
-    def magic(self,searchDB,agirlik=1):
+    '''
+    Bu Decorator'un iki farkli islevi bulunmaktadir
+    Kelime uzakligi kriteri icin:
+            Kelime uzakliklarini hesaplar ve yeni bir liste dondurur.Kelimeleri kontrol eder.
+    Zaman kriteri icin:
+            Kelime uzakliklarini hesaplar fakat bunun sonuca faydası olmayacağından ,
+            bu kriter için faydası sadece kelimeleri kontrol etmek olacaktır.
+    '''
+    def wrapper(self, searchDB, agirlik=1):
+        # stackoverflow'dan re örneği alınmıştır. https://stackoverflow.com/questions/7881794/dont-split-double-quoted-words-with-python-string-split
 
-        wordDB  = {}
+        entry = self.userwords.get()
+        wordlist = re.findall(r'(\w+|".*?")', entry)
+        if len(wordlist) == 0:
+            messagebox.showerror("HATA","Lütfen En Az Bir Kelime Giriniz")
+        else:
+            wordDB = {}
+            for path in searchDB:
+                content = (searchDB[path]["content"]).strip().split(' ')
+                counter = 0
+                score = 0
+                word_is_in=[]
+                for word in content:
+                    try:
+                        if word == wordlist[counter]:
+                            word_is_in.append(word)
+                            counter += 1
+                        elif word != wordlist[counter] and counter>0:
+                            score += 1
+                    except IndexError:
+                        break
+                if wordlist == word_is_in :
+                    searchDB[path]["score"] = score
+                    wordDB[path] = searchDB[path]
+            func(self, wordDB, agirlik=1)
 
-        for i in searchDB:
-            content = searchDB[i]["content"]
+    return wrapper
 
-        func(self,wordDB,agirlik=1)
-
-    return magic
-
+# Time Calculate Decorator --
+def calculatetime(func):
+    def wrapper(*args):
+        starttime = time.time()
+        func(*args)
+        endtime = time.time()
+        result = endtime-starttime
+    return wrapper
 # -------------------------
 
 class Analiz(Frame):
@@ -32,6 +67,7 @@ class Analiz(Frame):
         self.startdir.set(r"C:\Users\utkul\Desktop\New folder")
 
         self.derinlik = StringVar()
+        self.userwords= StringVar()
 
         self.file_paths = []
 
@@ -54,8 +90,8 @@ class Analiz(Frame):
                                                                                                    padx=0,
                                                                                                    ipady=0, pady=20)
 
-        Label(self.parent, width=10,text="Kelimeler", height=1).grid(row=3, column=0, ipadx=5, ipady=0)
-        Text(self.parent, width=25, height=1.2).grid(row=3, column=1, ipadx=0, ipady=0)
+        Label(self.parent, width=10, text="Kelimeler", height=1).grid(row=3, column=0, ipadx=5, ipady=0)
+        Entry(self.parent, width=25,textvariable=self.userwords).grid(row=3, column=1, ipadx=0, ipady=0)
 
         Label(self.parent, bg="misty rose", text="Sıralama Krıteri").grid(row=4, column=1, padx=0, pady=15)
 
@@ -96,7 +132,6 @@ class Analiz(Frame):
         self.filtre.insert(END, "Duz Metin")
         self.filtre.insert(END, "Program Kodu")
 
-
     def index_create(self):
         if os.path.isdir(self.startdir.get()):
             fileDic = self.FileSearch(self.startdir.get(), depth=3)
@@ -120,20 +155,36 @@ class Analiz(Frame):
                     searchDB[i] = db[i]
 
             if self.k_uzaklik.get() == True:
-                self.cook_data_k_uzaklik(searchDB,agirlik=1)
-            elif self.e_zaman.get() == True:
-                self.cook_data_e_zaman(searchDB,agirlik=1)
-            else :
-                messagebox.showerror("Kriter","Lütfen bir siralama kriteri seciniz")
+                self.cook_data_k_uzaklik(searchDB, agirlik=1)
+            if self.e_zaman.get() == True:
+                self.cook_data_e_zaman(searchDB, agirlik=1)
+            if self.k_uzaklik.get() == False and self.e_zaman.get() == False:
+                messagebox.showerror("Kriter", "Lütfen bir siralama kriteri seciniz")
+
         except TclError:
-            messagebox.showerror("Hata !","Lütfen bir filtre seçiniz")
+            messagebox.showerror("Hata !", "Lütfen bir filtre seçiniz")
 
     @wordCheck
-    def cook_data_k_uzaklik(self, searchDB,agirlik = 1):
-        pass
+    def cook_data_k_uzaklik(self, searchDB, agirlik=1):
+        uzakliklar = {"max":0.000000001,"min":0}
+        tum_uzakliklar = []
+
+        for i in searchDB:
+            tum_uzakliklar.append(searchDB[i]["score"])
+
+            if searchDB[i]["score"] == max(tum_uzakliklar):
+                uzakliklar["max"] = searchDB[i]["score"]
+            elif searchDB[i]["m_time"] == min(tum_uzakliklar):
+                uzakliklar["min"] = searchDB[i]["score"]
+        for i in searchDB:
+            try:
+                searchDB[i]["score"] = (searchDB[i]["score"] - uzakliklar["min"]) / (uzakliklar["max"] - uzakliklar["min"])
+                searchDB[i]["score"] = searchDB[i]["score"]*agirlik
+            except ZeroDivisionError:
+                searchDB[i]["score"] = 0
     @wordCheck
-    def cook_data_e_zaman(self,searchDB,agirlik = 1):
-        zamanlar = {"max": 0.1, "min": 0.000000001}
+    def cook_data_e_zaman(self, searchDB, agirlik=1):
+        zamanlar = {"max": 0.1, "min": 0}
         tum_zamanlar = []
         for i in searchDB:
             tum_zamanlar.append(searchDB[i]["m_time"])
@@ -144,8 +195,11 @@ class Analiz(Frame):
                 zamanlar["min"] = searchDB[i]["m_time"]
 
         for i in searchDB:
-            searchDB[i]["score"] = (searchDB[i]["m_time"] - zamanlar["min"]) / (zamanlar["max"] - zamanlar["min"])
-            print(searchDB[i]["score"],"score")
+            try:
+                searchDB[i]["score"] = (searchDB[i]["m_time"] - zamanlar["min"]) / (zamanlar["max"] - zamanlar["min"])
+                searchDB[i]["score"] = searchDB[i]["score"]
+            except ZeroDivisionError:
+                searchDB[i]["score"] = 0
 
     def FileSearch(self, startdirectory, depth=3):
         import magic
@@ -170,18 +224,6 @@ class Analiz(Frame):
                         pass
 
         return fileDic
-
-
-class TimeCalc():
-    def __init__(self):
-        pass
-
-    def timestart(self):
-        self.starttime = time.time()
-
-    def timeend(self):
-        self.endtime = time.time()
-        return self.starttime - self.endtime
 
 
 def main():
